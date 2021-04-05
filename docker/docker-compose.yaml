@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+
+  nginx:
+    container_name: admitad_nginx
+    image: nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 80:80
+    depends_on:
+      - php
+
+  php:
+    container_name: admitad_php
+    build: ./php
+    volumes:
+      - ../slnk:/slnk
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: admitad_mongo
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: passw0rd
+      MONGO_INITDB_DATABASE: slnk
+    volumes:
+      - ./mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - mongo-volume:/data/db
+      - ./mongo/mongod.conf:/etc/mongo/mongod.conf
+
+volumes:
+  mongo-volume:

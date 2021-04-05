@@ -1,0 +1,14 @@
+stat:
+    path: /
+    methods: GET
+    controller: App\Controller\Links::stat
+
+createLink:
+    path: /
+    methods: POST
+    controller: App\Controller\Links::create
+
+getLink:
+    path: /{key}
+    methods: GET
+    controller: App\Controller\Links::find
